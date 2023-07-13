@@ -1,8 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import PDFViewer from "../PDFViewer";
+import TextToSpeech from "../TextToVoice";
 
-const PDFModal = ({ isOpen, setIsOpen, url }: any) => {
+const PDFModal = ({ isOpen, setIsOpen, pdf }: any) => {
   function closeModal() {
     setIsOpen(false);
   }
@@ -37,7 +38,10 @@ const PDFModal = ({ isOpen, setIsOpen, url }: any) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <PDFViewer url={url} />
+                <PDFViewer url={pdf.pdfUrl} />
+                <div className="flex justify-center my-2">
+                  <TextToSpeech text={pdf.title} />
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

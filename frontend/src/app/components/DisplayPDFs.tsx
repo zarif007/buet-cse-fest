@@ -34,6 +34,12 @@ const generatedPdfs: generatedPDFs[] = [
 const DisplayPDFs = () => {
   return (
     <div className="mx-auto w-full max-w-5xl py-24 flex flex-col">
+      <input
+        className=" flex w-full text-black h-16 bg-gray-800 rounded-sm border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+        defaultValue=""
+        placeholder="Search"
+        onChange={(e) => {}}
+      />
       <section className="text-gray-400 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap -m-4">
@@ -111,7 +117,7 @@ const DisplayPDF = ({ pdf }: { pdf: generatedPDFs }) => {
               </svg>
             </a>
             {/* PDFModal component usage */}
-            <PDFModal isOpen={isOpen} setIsOpen={setIsOpen} url={pdf.pdfUrl} />
+            <PDFModal isOpen={isOpen} setIsOpen={setIsOpen} pdf={pdf} />
           </div>
         </div>
       </div>
