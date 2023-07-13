@@ -44,6 +44,32 @@ const TextToSpeech = ({ text }) => {
           Your browser does not support the audio element.
         </audio>
       )}
+      <style jsx>{`
+        .audio-container {
+          display: inline-block;
+          position: relative;
+        }
+
+        .audio-container audio {
+          display: block;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+        }
+
+        .audio-container audio::-webkit-media-controls-start-playback-button {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          background: none;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+      `}</style>
     </div>
   );
 };
