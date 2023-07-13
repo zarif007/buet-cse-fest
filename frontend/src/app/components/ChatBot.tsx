@@ -7,6 +7,9 @@ import handleDetectTextFromImage from "../utils/handleDetectTextFromImage";
 import UseDropZoneToUploadFile from "./UseDropZoneToUploadFile";
 import TypewriterAnimation from "./ui/TypewriterAnimation";
 import TextToVoice from "./TextToVoice";
+import { IoText } from "react-icons/io5";
+import { MdOutlineKeyboardVoice } from "react-icons/md";
+import { BsFileEarmarkBreak } from "react-icons/bs";
 
 const dp = [
   "https://i.ibb.co/RhgYH8R/kisspng-clip-art-openclipart-beard-image-vector-graphics-beard-png-images-free-download-5b7ed8401bd6.png",
@@ -24,6 +27,10 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<
     { role: string; content: string | undefined }[]
   >([]);
+
+  const [selectedMethod, setSelectedMethod] = useState<
+    "text" | "voice" | "file"
+  >("text");
 
   useEffect(() => {
     if (voiceInputEnabled && "webkitSpeechRecognition" in window) {
@@ -121,6 +128,7 @@ const ChatBot = () => {
 
   return (
     <div className="mx-auto py-24 flex flex-col">
+      {/* Conversation */}
       {messages.length > 0 && (
         <div>
           {messages.map((m, index) => (
@@ -128,10 +136,14 @@ const ChatBot = () => {
               key={index}
               className={`${m.role === "User" ? "" : "bg-gray-900"} py-8 px-4`}
             >
-              <div className="w-full max-w-5xl mx-auto font-semibold flex space-x-2 items-center">
-                <img src={dp[index % 2]} className="w-10 h-10" />
-                <TypewriterAnimation text={m.content} />
-                {index % 2 !== 0 && <TextToVoice text={m.content} />}
+              <div className="w-full max-w-5xl mx-auto font-semibold">
+                <div className="flex space-x-2 items-center">
+                  <img src={dp[index % 2]} className="w-10 h-10" />
+                  <TypewriterAnimation text={m.content} />
+                </div>
+                <div className="my-2 mx-auto">
+                  {index % 2 !== 0 && <TextToVoice text={m.content} />}
+                </div>
               </div>
             </div>
           ))}
@@ -139,39 +151,75 @@ const ChatBot = () => {
       )}
 
       {/* Normal text submit */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleExtraSubmit(normalText);
-        }}
-        className="w-full max-w-5xl mx-auto my-2"
-      >
-        <input
-          className="flex w-full text-black h-16 bg-gray-800 rounded-sm border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-          defaultValue={normalText}
-          placeholder="text"
-          onChange={(e) => setNormalText(e.target.value)}
-        />
-      </form>
+      {selectedMethod === "text" && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleExtraSubmit(normalText);
+          }}
+          className="w-full max-w-5xl mx-auto my-2"
+        >
+          <input
+            className="flex w-full text-black h-16 bg-gray-800 rounded-sm border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            defaultValue={normalText}
+            placeholder="text"
+            onChange={(e) => setNormalText(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="font-bold my-2 rounded bg-blue-500 py-4 px-6"
+          >
+            Submit
+          </button>
+        </form>
+      )}
 
       {/* voice text */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleExtraSubmit(voiceText);
-        }}
-        className="w-full max-w-5xl mx-auto my-2"
-      >
-        <button type="button" onClick={toggleVoiceInput}>
-          {voiceInputEnabled ? "Disable Voice Input" : "Enable Voice Input"}
-        </button>
-        {listening && <span>Listening...</span>}
-        <p>{voiceText}</p>
-        <button type="submit">submit</button>
-      </form>
+      {selectedMethod === "voice" && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleExtraSubmit(voiceText);
+          }}
+          className="w-full max-w-5xl mx-auto my-2"
+        >
+          {!voiceInputEnabled && (
+            <button type="button" onClick={toggleVoiceInput}>
+              <MdOutlineKeyboardVoice className="h-12 w-12 cursor-pointer rounded bg-blue-500 p-1" />
+            </button>
+          )}
+          {listening && <p>listening....</p>}
+          <p>{voiceText}</p>
+          <button
+            type="submit"
+            className="font-bold my-2 rounded bg-blue-500 py-4 px-6"
+          >
+            Submit
+          </button>
+        </form>
+      )}
 
-      <div className="w-full max-w-5xl mx-auto my-2">
-        <UseDropZoneToUploadFile handleFileUpload={handleFileUpload} />
+      {/* File input */}
+      {selectedMethod === "file" && (
+        <div className="w-full max-w-5xl mx-auto my-2">
+          <UseDropZoneToUploadFile handleFileUpload={handleFileUpload} />
+        </div>
+      )}
+
+      {/* Method selector */}
+      <div className="w-full max-w-5xl mx-auto my-2 flex space-x-2">
+        <IoText
+          className="h-12 w-12 cursor-pointer rounded-xl bg-indigo-950 p-1"
+          onClick={() => setSelectedMethod("text")}
+        />
+        <MdOutlineKeyboardVoice
+          className="h-12 w-12 cursor-pointer rounded-xl bg-sky-950 p-1"
+          onClick={() => setSelectedMethod("voice")}
+        />
+        <BsFileEarmarkBreak
+          className="h-12 w-12 cursor-pointer rounded-xl bg-[#2e1065] p-1"
+          onClick={() => setSelectedMethod("file")}
+        />
       </div>
     </div>
   );
