@@ -5,6 +5,12 @@ import { useEffect, useState } from "react";
 import handlePromptSubmit from "../utils/handlePromptSubmit";
 import handleDetectTextFromImage from "../utils/handleDetectTextFromImage";
 import UseDropZoneToUploadFile from "./UseDropZoneToUploadFile";
+import TypewriterAnimation from "./ui/TypewriterAnimation";
+
+const dp = {
+  User: "https://i.ibb.co/RhgYH8R/kisspng-clip-art-openclipart-beard-image-vector-graphics-beard-png-images-free-download-5b7ed8401bd6.png",
+  AI: "https://i.ibb.co/bFK7xBb/robot-chatbot-icon-sign-free-vector-removebg-preview.png",
+};
 
 const ChatBot = () => {
   const [voiceInputEnabled, setVoiceInputEnabled] = useState(false);
@@ -54,16 +60,17 @@ const ChatBot = () => {
   const handleExtraSubmit = async (prompt: any) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      { role: "User:", content: prompt },
+      { role: "User", content: prompt },
     ]);
 
     const reply = await handlePromptSubmit(prompt);
 
     setMessages((prevMessages) => [
       ...prevMessages,
-      { role: "AI:", content: reply },
+      { role: "AI", content: reply },
     ]);
 
+    console.log(messages);
     setVoiceInputEnabled(false);
     setVoiceText("");
   };
@@ -112,13 +119,18 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md py-24 flex flex-col">
+    <div className="mx-auto py-24 flex flex-col">
       {messages.length > 0 && (
         <div>
           {messages.map((m, index) => (
-            <div key={index}>
-              {m.role}
-              {m.content}
+            <div
+              key={index}
+              className={`${m.role === "User" ? "" : "bg-gray-900"} py-8 px-4`}
+            >
+              <div className="w-full max-w-5xl mx-auto font-semibold flex space-x-2 items-center">
+                <img src={dp[m.role ? m.role : "User"]} className="w-10 h-10" />
+                <TypewriterAnimation text={m.content} />
+              </div>
             </div>
           ))}
         </div>
@@ -130,9 +142,10 @@ const ChatBot = () => {
           e.preventDefault();
           handleExtraSubmit(normalText);
         }}
+        className="w-full max-w-5xl mx-auto my-2"
       >
         <input
-          className="flex w-full text-black"
+          className="flex w-full text-black h-16 bg-gray-800 rounded-sm border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
           defaultValue={normalText}
           placeholder="text"
           onChange={(e) => setNormalText(e.target.value)}
@@ -145,6 +158,7 @@ const ChatBot = () => {
           e.preventDefault();
           handleExtraSubmit(voiceText);
         }}
+        className="w-full max-w-5xl mx-auto my-2"
       >
         <button type="button" onClick={toggleVoiceInput}>
           {voiceInputEnabled ? "Disable Voice Input" : "Enable Voice Input"}
@@ -154,7 +168,9 @@ const ChatBot = () => {
         <button type="submit">submit</button>
       </form>
 
-      <UseDropZoneToUploadFile handleFileUpload={handleFileUpload} />
+      <div className="w-full max-w-5xl mx-auto my-2">
+        <UseDropZoneToUploadFile handleFileUpload={handleFileUpload} />
+      </div>
     </div>
   );
 };
