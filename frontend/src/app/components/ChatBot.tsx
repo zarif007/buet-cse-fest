@@ -6,11 +6,12 @@ import handlePromptSubmit from "../utils/handlePromptSubmit";
 import handleDetectTextFromImage from "../utils/handleDetectTextFromImage";
 import UseDropZoneToUploadFile from "./UseDropZoneToUploadFile";
 import TypewriterAnimation from "./ui/TypewriterAnimation";
+import TextToVoice from "./TextToVoice";
 
-const dp = {
-  User: "https://i.ibb.co/RhgYH8R/kisspng-clip-art-openclipart-beard-image-vector-graphics-beard-png-images-free-download-5b7ed8401bd6.png",
-  AI: "https://i.ibb.co/bFK7xBb/robot-chatbot-icon-sign-free-vector-removebg-preview.png",
-};
+const dp = [
+  "https://i.ibb.co/RhgYH8R/kisspng-clip-art-openclipart-beard-image-vector-graphics-beard-png-images-free-download-5b7ed8401bd6.png",
+  "https://i.ibb.co/bFK7xBb/robot-chatbot-icon-sign-free-vector-removebg-preview.png",
+];
 
 const ChatBot = () => {
   const [voiceInputEnabled, setVoiceInputEnabled] = useState(false);
@@ -128,8 +129,9 @@ const ChatBot = () => {
               className={`${m.role === "User" ? "" : "bg-gray-900"} py-8 px-4`}
             >
               <div className="w-full max-w-5xl mx-auto font-semibold flex space-x-2 items-center">
-                <img src={dp[m.role ? m.role : "User"]} className="w-10 h-10" />
+                <img src={dp[index % 2]} className="w-10 h-10" />
                 <TypewriterAnimation text={m.content} />
+                {index % 2 !== 0 && <TextToVoice text={m.content} />}
               </div>
             </div>
           ))}
