@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 
 const config = new Configuration({
-  apiKey: "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",
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });
 
 const handlePromptSubmit = async (prompt) => {
