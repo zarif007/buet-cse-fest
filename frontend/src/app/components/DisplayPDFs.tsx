@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import DetectSentiment from "../utils/DetectSentiment";
+import PDFReader from "../utils/pdfReader";
 import PDFModal from "./ui/PDF.Modal";
 import { generatedPDFs } from "@/types/pdf";
+import handlePromptSubmit from "../utils/handlePromptSubmit";
 
 const generatedPdfs: generatedPDFs[] = [
   {
     creator: "Salman",
-    title: "My name isakkas",
+    title: "I love cow",
     pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
     visibility: false,
     coverImageUrl: "https://www.gstatic.com/webp/gallery/1.jpg",
@@ -14,16 +16,15 @@ const generatedPdfs: generatedPDFs[] = [
   },
   {
     creator: "Samir",
-    title: "My name isakkas",
-    pdfUrl:
-      "https://storage.googleapis.com/buetcsehackathonpdf/pdfs/53b9d92639f8150ccf973d84bc4b6092.pdf",
+    title: "I love cow",
+    pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
     visibility: false,
     coverImageUrl: "https://www.gstatic.com/webp/gallery/2.jpg",
     tags: ["nature", "travel"],
   },
   {
     creator: "Zarif",
-    title: "My name isakkas",
+    title: "I love cow",
     pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
     visibility: false,
     coverImageUrl: "https://www.gstatic.com/webp/gallery/3.jpg",
@@ -32,14 +33,31 @@ const generatedPdfs: generatedPDFs[] = [
 ];
 
 const DisplayPDFs = () => {
+  const [prompt, setPrompt] = useState<string>("");
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log(prompt);
+  };
   return (
     <div className="mx-auto w-full max-w-5xl py-24 flex flex-col">
-      <input
-        className=" flex w-full text-black h-16 bg-gray-800 rounded-sm border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-        defaultValue=""
-        placeholder="Search"
-        onChange={(e) => {}}
-      />
+      <form
+        onSubmit={handleSubmit}
+        className="flex space-x-2 w-full mx-auto justify-center items-center"
+      >
+        <input
+          className=" flex w-full text-black h-14 bg-gray-800 rounded-sm border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          defaultValue=""
+          placeholder="Prompt to EBook"
+          onChange={(e) => setPrompt(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="font-bold my-2 rounded bg-blue-500 py-4 px-6"
+        >
+          Submit
+        </button>
+      </form>
       <section className="text-gray-400 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap -m-4">
@@ -56,11 +74,20 @@ const DisplayPDFs = () => {
 const DisplayPDF = ({ pdf }: { pdf: generatedPDFs }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [sentiment, setSentiment] = useState<string | undefined>("");
+  const [summary, setSummary] = useState<string | undefined>("");
 
   useEffect(() => {
     const getSentiment = async () => {
       setSentiment(await DetectSentiment("hiiii"));
     };
+    const getSummary = async () => {
+      setSummary(
+        await handlePromptSubmit(
+          `Generate summary based on this title ${pdf.title} in 20 words`
+        )
+      );
+    };
+    // getSummary();
     getSentiment();
   }, [pdf]);
   return (
@@ -85,10 +112,7 @@ const DisplayPDF = ({ pdf }: { pdf: generatedPDFs }) => {
             </h1>
           )}
 
-          <p className="leading-relaxed mb-3">
-            Photo booth fam kinfolk cold-pressed sriracha leggings jianbing
-            microdosing tousled waistcoat.
-          </p>
+          <p className="leading-relaxed mb-3">{summary}</p>
 
           <div className="flex space-x-2">
             {pdf.tags.map((tag: string, index: number) => (
