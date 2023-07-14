@@ -1,14 +1,15 @@
 "use client";
 import ChatBot from "./components/ChatBot";
 import DisplayPDFs from "./components/DisplayPDFs";
-import PDFViewer from "./components/PDFViewer";
-import PDFModal from "./components/ui/PDF.Modal";
+import Navbar from "./components/Navbar";
+import MDX from "./components/ui/MDX";
 
 export default function Home() {
   return (
     <div>
+      <Navbar />
       <DisplayPDFs />
-      {/* <PDFViewer url="https://www.africau.edu/images/default/sample.pdf" /> */}
+      {/* <MDX /> */}
     </div>
   );
 }

@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/chatgpt.tjs", "src/app/utils/handlePromptSubmit.js", "src/app/components/TextDetectionPage.jsx", "src/app/components/TextToVoice.jsx", "src/app/components/PDFViewer.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/chatgpt.tjs", "src/app/utils/handlePromptSubmit.js", "src/app/components/TextDetectionPage.jsx", "src/app/components/TextToVoice.jsx", "src/app/components/PDFViewer.js", "src/app/components/ui/MDX.jsx"],
   "exclude": ["node_modules"]
 }

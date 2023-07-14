@@ -5,4 +5,5 @@ export interface generatedPDFs {
   visibility: boolean;
   coverImageUrl: string;
   tags: string[];
+  contentInText?: string;
 }
