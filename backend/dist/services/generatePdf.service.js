@@ -13,15 +13,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePdfService = void 0;
+// import { ActivityInterface } from '../types/activity/index';
+const pdf_model_1 = require("../models/pdf.model");
 const pdfgenerator_1 = __importDefault(require("../utils/pdfgenerator"));
+const utility_1 = require("../utils/utility");
+const user_service_1 = require("./user.service");
 const generatePdfService = (prompt) => __awaiter(void 0, void 0, void 0, function* () {
     const { msg, generatedBy, type } = prompt;
-    console.log(msg, generatedBy, type);
-    const url = (0, pdfgenerator_1.default)({ msg, type });
-    // // const {pdfUrl, pdfTag} = msg;
-    // // const result = await PdfModel.create({
-    // //   url: pdfUrl, generatedBy,tags:pdfTag});
-    // // return result;
-    return url;
+    let generator;
+    if (generatedBy) {
+        generator = yield (0, user_service_1.getUserService)({ email: generatedBy });
+    }
+    else {
+        generator = yield (0, user_service_1.getUserService)({ _id: (0, utility_1.convertToObjectId)("64b09dbd96342a86c8bf9b8b") });
+    }
+    const { storyObject, fileUrl } = yield (0, pdfgenerator_1.default)({ msg, type });
+    const result = yield pdf_model_1.PdfModel.create({
+        pdfUrl: fileUrl, creator: generator[0]._id,
+        contentInText: storyObject.chat, title: storyObject.title
+    });
+    return result;
 });
 exports.generatePdfService = generatePdfService;

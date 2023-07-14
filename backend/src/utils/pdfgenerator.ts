@@ -160,7 +160,8 @@ const generatePDF = async (prompt: any) => {
   await uploadToCloudStorage(bucketName, randomFilename, destinationFilename);
   const fileUrl = `https://storage.googleapis.com/${bucketName}/${destinationFilename}`;
   fs.unlinkSync(`./${randomFilename}`);
-  return fileUrl;
+
+  return {storyObject, fileUrl};
 
 }
 
