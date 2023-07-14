@@ -19,7 +19,7 @@ const GeneratedPdfSchema = new mongoose.Schema({
     },
     visibility: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     contentInText: {
         type: String,

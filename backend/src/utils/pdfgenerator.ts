@@ -8,7 +8,6 @@ import { generateRandomFilename, openAiConfiguration, uploadToCloudStorage } fro
 
 
 const openai = new OpenAIApi(openAiConfiguration);
-
 const chatCreator = async (prompt: any, tokenNumber: any) => {
   const content = `create a ${prompt.wordLimit} words ${prompt.flag} for ${prompt.type} about ${prompt.msg}`;
   console.log(content);
@@ -138,10 +137,12 @@ const generatePDF = async (prompt: any) => {
   doc.image(imageBuffer2, x, 10, { width: imageWidth, height: imageHeight });
   doc.moveDown(2);
 
+
   doc
+  .text(String(storyObject.chat).slice(0,10), 100, 350)
     .font('Times-Roman', 12)
-    .moveTo(0,imageHeight+20)
-    .text(String(storyObject.chat), {
+    .moveDown()
+    .text(String(storyObject.chat).slice(10), {
       width: 412,
       align: 'justify',
       indent: 30,

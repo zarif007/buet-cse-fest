@@ -102,9 +102,10 @@ const generatePDF = (prompt) => __awaiter(void 0, void 0, void 0, function* () {
     doc.image(imageBuffer2, x, 10, { width: imageWidth, height: imageHeight });
     doc.moveDown(2);
     doc
+        .text(String(storyObject.chat).slice(0, 10), 100, 350)
         .font('Times-Roman', 12)
-        .moveTo(0, imageHeight + 20)
-        .text(String(storyObject.chat), {
+        .moveDown()
+        .text(String(storyObject.chat).slice(10), {
         width: 412,
         align: 'justify',
         indent: 30,

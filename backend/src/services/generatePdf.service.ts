@@ -18,7 +18,7 @@ const generatePdfService = async (prompt: any) => {
   }
 
   const { storyObject, fileUrl } = await generatePDF({ msg, type })
-
+  
   const result = await PdfModel.create({
     pdfUrl: fileUrl, creator: generator[0]._id,
     contentInText: storyObject.chat, title: storyObject.title
