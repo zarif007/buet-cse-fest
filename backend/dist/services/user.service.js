@@ -9,8 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHome = void 0;
-const getHome = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.sendFile('index.html', { root: 'src/public' });
+exports.addUserService = exports.getUserService = void 0;
+const user_model_1 = require("../models/user.model");
+const addUserService = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.create(user);
+    return result;
 });
-exports.getHome = getHome;
+exports.addUserService = addUserService;
+const getUserService = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.find(query);
+    return result;
+});
+exports.getUserService = getUserService;

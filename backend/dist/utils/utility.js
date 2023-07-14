@@ -12,14 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadToCloudStorage = exports.generateRandomFilename = exports.convertToObjectId = void 0;
+exports.openAiConfiguration = exports.uploadToCloudStorage = exports.generateRandomFilename = exports.convertToObjectId = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const storage_1 = require("@google-cloud/storage");
 const crypto_1 = __importDefault(require("crypto"));
+const openai_1 = require("openai");
 const storage = new storage_1.Storage({
     projectId: 'buetcsehackathonpdf',
     keyFilename: './credentials/gcpstoragecredentials.json',
 });
+const openAiConfiguration = new openai_1.Configuration({
+    apiKey: process.env.OPENAI_APIKEY
+});
+exports.openAiConfiguration = openAiConfiguration;
 // change string id to mongodb object id
 const convertToObjectId = (id) => {
     const objectId = new mongoose_1.default.mongo.ObjectId(id);

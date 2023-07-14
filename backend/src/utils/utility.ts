@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 import { Storage } from '@google-cloud/storage';
 import crypto from 'crypto';
+import { Configuration} from "openai";
 
 const storage = new Storage({
     projectId: 'buetcsehackathonpdf',
     keyFilename: './credentials/gcpstoragecredentials.json',
+});
+
+const openAiConfiguration = new Configuration({
+    apiKey :process.env.OPENAI_APIKEY
 });
 
 // change string id to mongodb object id
@@ -30,4 +35,4 @@ const uploadToCloudStorage = async (bucketName: string, filename:string, destina
 }
 
 
-export { convertToObjectId, generateRandomFilename, uploadToCloudStorage}
+export { convertToObjectId, generateRandomFilename, uploadToCloudStorage,openAiConfiguration}
