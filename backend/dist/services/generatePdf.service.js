@@ -8,9 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHome = void 0;
-const getHome = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.sendFile('index.html', { root: 'src/public' });
+exports.generatePdfService = void 0;
+const pdfgenerator_1 = __importDefault(require("../utils/pdfgenerator"));
+const generatePdfService = (prompt) => __awaiter(void 0, void 0, void 0, function* () {
+    const { msg, generatedBy, type } = prompt;
+    console.log(msg, generatedBy, type);
+    const url = (0, pdfgenerator_1.default)({ msg, type });
+    // // const {pdfUrl, pdfTag} = msg;
+    // // const result = await PdfModel.create({
+    // //   url: pdfUrl, generatedBy,tags:pdfTag});
+    // // return result;
+    return url;
 });
-exports.getHome = getHome;
+exports.generatePdfService = generatePdfService;

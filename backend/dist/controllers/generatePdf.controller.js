@@ -9,8 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHome = void 0;
-const getHome = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.sendFile('index.html', { root: 'src/public' });
+const generatePdf_service_1 = require("../services/generatePdf.service");
+const generatePdf = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const prompt = req.body;
+        const result = yield (0, generatePdf_service_1.generatePdfService)(prompt);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in generating pdf",
+        });
+    }
 });
-exports.getHome = getHome;
+exports.default = {
+    generatePdf,
+};
