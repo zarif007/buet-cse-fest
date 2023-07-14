@@ -42,6 +42,7 @@ const DisplayPDFs = () => {
       const res = await axios.get(
         "https://kstra-backend.skillsnai.xyz/api/v1/generatepdf"
       );
+      console.log(res);
       setGeneratedPdfs(res.data.data);
     };
     getData();
@@ -53,11 +54,11 @@ const DisplayPDFs = () => {
       "https://kstra-backend.skillsnai.xyz/api/v1/generatepdf",
       {
         msg: prompt,
-        generatedBy: "yyyy",
+        generatedBy: "md.danialislam@gmail.com",
         type: "Kids Books",
       }
     );
-    console.log(res);
+    setPrompt("");
   };
   return (
     <div className="mx-auto w-full max-w-5xl py-24 flex flex-col">
