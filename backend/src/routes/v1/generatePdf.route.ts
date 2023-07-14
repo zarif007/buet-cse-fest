@@ -6,6 +6,7 @@ import GeneratePdfController from "../../controllers/generatePdf.controller";
 
 router
   .route("/")
+  .get(GeneratePdfController.getgeneratedPdf)
   .post(GeneratePdfController.generatePdf);
 
 // router

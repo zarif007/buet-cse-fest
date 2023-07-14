@@ -27,6 +27,24 @@ const generatePdf = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         });
     }
 });
+const getgeneratedPdf = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const query = req.query;
+        const result = yield (0, generatePdf_service_1.getPdfService)(query);
+        res.status(200).json({
+            success: true,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            err: err.message,
+            message: "Error in generating pdf",
+        });
+    }
+});
 exports.default = {
+    getgeneratedPdf,
     generatePdf,
 };

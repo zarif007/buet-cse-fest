@@ -5,11 +5,11 @@ import { Configuration} from "openai";
 
 const storage = new Storage({
     projectId: 'buetcsehackathonpdf',
-    keyFilename: "gcpstoragecredentials.json",
+    keyFilename: './credentials/gcpstoragecredentials.json',
 });
 
 const openAiConfiguration = new Configuration({
-    apiKey :'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'
+    apiKey :process.env.OPENAI_APIKEY
 });
 
 // change string id to mongodb object id

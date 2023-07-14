@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generatePdfService = void 0;
+exports.generatePdfService = exports.getPdfService = void 0;
 // import { ActivityInterface } from '../types/activity/index';
 const pdf_model_1 = require("../models/pdf.model");
 const pdfgenerator_1 = __importDefault(require("../utils/pdfgenerator"));
@@ -35,3 +35,8 @@ const generatePdfService = (prompt) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 exports.generatePdfService = generatePdfService;
+const getPdfService = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield pdf_model_1.PdfModel.find(query);
+    return result;
+});
+exports.getPdfService = getPdfService;

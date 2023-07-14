@@ -19,10 +19,10 @@ const crypto_1 = __importDefault(require("crypto"));
 const openai_1 = require("openai");
 const storage = new storage_1.Storage({
     projectId: 'buetcsehackathonpdf',
-    keyFilename: "gcpstoragecredentials.json",
+    keyFilename: './credentials/gcpstoragecredentials.json',
 });
 const openAiConfiguration = new openai_1.Configuration({
-    apiKey: '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'
+    apiKey: process.env.OPENAI_APIKEY
 });
 exports.openAiConfiguration = openAiConfiguration;
 // change string id to mongodb object id
