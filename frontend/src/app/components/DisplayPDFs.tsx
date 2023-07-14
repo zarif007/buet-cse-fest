@@ -4,6 +4,7 @@ import PDFReader from "../utils/pdfReader";
 import PDFModal from "./ui/PDF.Modal";
 import { generatedPDFs } from "@/types/pdf";
 import handlePromptSubmit from "../utils/handlePromptSubmit";
+import axios from "axios";
 
 const generatedPdfs: generatedPDFs[] = [
   {
@@ -34,10 +35,29 @@ const generatedPdfs: generatedPDFs[] = [
 
 const DisplayPDFs = () => {
   const [prompt, setPrompt] = useState<string>("");
+  const [generatedPdfs, setGeneratedPdfs] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await axios.get(
+        "https://kstra-backend.skillsnai.xyz/api/v1/generatepdf"
+      );
+      setGeneratedPdfs(res.data.data);
+    };
+    getData();
+  }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(prompt);
+    const res = await axios.post(
+      "https://kstra-backend.skillsnai.xyz/api/v1/generatepdf",
+      {
+        msg: prompt,
+        generatedBy: "yyyy",
+        type: "Kids Books",
+      }
+    );
+    console.log(res);
   };
   return (
     <div className="mx-auto w-full max-w-5xl py-24 flex flex-col">
@@ -75,19 +95,13 @@ const DisplayPDF = ({ pdf }: { pdf: generatedPDFs }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [sentiment, setSentiment] = useState<string | undefined>("");
   const [summary, setSummary] = useState<string | undefined>("");
+  const [genTags, setGenTags] = useState<string | undefined[]>([]);
 
   useEffect(() => {
     const getSentiment = async () => {
       setSentiment(await DetectSentiment("hiiii"));
     };
-    const getSummary = async () => {
-      setSummary(
-        await handlePromptSubmit(
-          `Generate summary based on this title ${pdf.title} in 20 words`
-        )
-      );
-    };
-    // getSummary();
+
     getSentiment();
   }, [pdf]);
   return (
@@ -95,7 +109,7 @@ const DisplayPDF = ({ pdf }: { pdf: generatedPDFs }) => {
       <div className="h-full border-2 border-gray-800 rounded-lg overflow-hidden">
         <img
           className="lg:h-48 md:h-36 w-full object-cover object-center"
-          src={pdf.coverImageUrl}
+          src="https://www.warpnews.org/content/images/2023/01/AI-creativity-smaller.jpg"
           alt="blog"
         />
         <div className="p-6">
