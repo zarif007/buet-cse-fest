@@ -68,19 +68,20 @@ const ChatBot = () => {
   const handleExtraSubmit = async (prompt: any) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      { role: "User", content: prompt },
+      { role: "user", content: prompt },
     ]);
 
-    const reply = await handlePromptSubmit(prompt);
-
+    const reply = await handlePromptSubmit([...messages, { role: "user", content: prompt }]);
+    console.log("reply: ", reply);
     setMessages((prevMessages) => [
       ...prevMessages,
-      { role: "AI", content: reply },
+      { role: "assistant", content: reply },
     ]);
 
     console.log(messages);
     setVoiceInputEnabled(false);
     setVoiceText("");
+    setNormalText("");
   };
 
   // retrieved texts to prompt
@@ -134,7 +135,7 @@ const ChatBot = () => {
           {messages.map((m, index) => (
             <div
               key={index}
-              className={`${m.role === "User" ? "" : "bg-gray-900"} py-8 px-4`}
+              className={`${m.role === "user" ? "" : "bg-gray-900"} py-8 px-4`}
             >
               <div className="w-full max-w-5xl mx-auto font-semibold">
                 <div className="flex space-x-2 items-center">

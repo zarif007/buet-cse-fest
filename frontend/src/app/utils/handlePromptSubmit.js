@@ -9,13 +9,8 @@ const handlePromptSubmit = async (prompt) => {
   const openai = new OpenAIApi(config);
   const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    messages: [
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-    max_tokens: 100,
+    messages: prompt,
+    max_tokens: 200,
   });
   return res.data.choices[0].message.content;
 };
